@@ -10,10 +10,9 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://github.com/DavFount/soap/blob/main/logo.png?raw=true" alt="Logo" width="80" height="80">
-  </a>
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/47730893/213677300-d40daa0a-2659-47cb-af49-3983cc4ef545.png?raw=true" alt="Logo">
+</p>
 
 <h3 align="center">The SOAP Dish</h3>
 
@@ -170,6 +169,7 @@ Projects:
 
 <!-- - [Choose an Open Source License](https://choosealicense.com) -->
 
+- [Bytesizd](https://github.com/AndrewR3K) - Thanks for the LOGOS!!!!
 - [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 - [Laravel](https://laravel.com/)
 - [Tailwind CSS](https://tailwindcss.com/)

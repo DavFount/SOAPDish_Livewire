@@ -9,11 +9,10 @@
 <!-- [![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 <!-- PROJECT LOGO -->
-<br />![LogoText_Vert_NoBubs](https://user-images.githubusercontent.com/47730893/213677300-d40daa0a-2659-47cb-af49-3983cc4ef545.png)
 
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://github.com/DavFount/soap/blob/main/logo.png?raw=true" alt="Logo" width="80" height="80">
+    ![LogoText_Vert_NoBubs](https://user-images.githubusercontent.com/47730893/213677300-d40daa0a-2659-47cb-af49-3983cc4ef545.png)
   </a>
 
 <h3 align="center">The SOAP Dish</h3>

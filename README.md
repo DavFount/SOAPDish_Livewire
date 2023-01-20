@@ -11,7 +11,7 @@
 <!-- PROJECT LOGO -->
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/47730893/213677300-d40daa0a-2659-47cb-af49-3983cc4ef545.png?raw=true" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/47730893/213677300-d40daa0a-2659-47cb-af49-3983cc4ef545.png?raw=true" alt="Logo">
 </p>
 
 <h3 align="center">The SOAP Dish</h3>

@@ -10,10 +10,9 @@
 
 <!-- PROJECT LOGO -->
 
-<div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    ![LogoText_Vert_NoBubs](https://user-images.githubusercontent.com/47730893/213677300-d40daa0a-2659-47cb-af49-3983cc4ef545.png)
-  </a>
+
+![LogoText_Vert_NoBubs](https://user-images.githubusercontent.com/47730893/213677300-d40daa0a-2659-47cb-af49-3983cc4ef545.png)
+
 
 <h3 align="center">The SOAP Dish</h3>
 

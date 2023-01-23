@@ -58,7 +58,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/DavFount/SOAPDish_Livewire)
 
 This project is the backend API for The SOAP Dish. It is currently under development and will be changing rapidly as various features get added in. At its core it was designed to provide a modern way for people to spend time in the word of God from where ever they are as long as they have an internet connection.
 
@@ -195,7 +195,7 @@ Projects:
 [license-url]: https://github.com/DavFount/SOAPDish_Livewire/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/davfount/
-[product-screenshot]: https://github.com/DavFount/soap/blob/main/ProductPreview.jpg?raw=true
+[product-screenshot]: https://user-images.githubusercontent.com/47730893/214015036-33cb5530-e308-4f7f-bf97-883510b9f391.png?raw=true
 [tailwindcss.com]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
 [tailwind-url]: https://tailwindcss.com/
 [laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white

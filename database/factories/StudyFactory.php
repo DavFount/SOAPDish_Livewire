@@ -14,7 +14,7 @@ class StudyFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory()->create(),
+            'user_id' => rand(1,11),
             'title' => $this->faker->sentence(),
             'verse' => $this->faker->sentence(),
             'body' => $this->faker->paragraph(),

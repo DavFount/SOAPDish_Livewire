@@ -16,6 +16,7 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
+    @stack('styles')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
     @livewireScripts
@@ -38,14 +39,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900">
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
 <header>
     <x-base.navbar/>
 </header>
 @yield('body')
 <footer>
-
+&nbsp;
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/flowbite.min.js"></script>
+@stack('scripts')
 </body>
 </html>

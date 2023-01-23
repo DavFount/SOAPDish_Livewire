@@ -4,35 +4,69 @@
         <div class="w-full md:w-3/12 md:mx-2">
             <!-- Profile Card -->
             @php
-                $avatar = $avatar_url ? asset('/storage/' . $avatar_url) : asset('/storage/avatar/default.png');
+                if ($tempAvatar){
+                    $avatar = $avatar->temporaryUrl();
+                } else {
+                    $avatar = $avatar_url ? asset('/storage/' . $avatar_url) : asset('/storage/avatar/default.png');
+                }
             @endphp
             <div
                 class="bg-gray-100 dark:bg-gray-800 p-3 shadow-sm rounded-xl border-t-4 border-gray-400 dark:border-gray-700 custom-shadow">
-                <form wire:submit.prevent="saveProfile">
+                <form wire:submit.prevent="saveAvatar">
                     <div class="image overflow-hidden">
-                        @php
-                            if ($tempAvatar) $avatar = $avatar_url->temporaryUrl();
-                        @endphp
-                        <img class="h-auto w-full mx-auto rounded-lg border border-black"
-                             src="{{ $avatar }}"
-                             alt="{{ $name }}">
-                    </div>
-                    <div class="justify-center w-full my-3">
-                    @if($edit_mode)
-                        <input wire:model="avatar_url" id="avatar" type="file"  class="hidden" />
-                        <button type="button" class="bg-gray-900 hover:bg-gray-700 mt-2 rounded-xl text-gray-50 border border-gray-900 text-sm p-2 mr-3 custom-shadow"
-                                onclick="document.getElementById('avatar').click()">Upload a file
-                        </button>
-                        @if($avatar_url)
-                            <button type="button" class="bg-red-900 hover:bg-red-700 md:mt-3 md:block lg:inline-flex rounded-xl text-gray-50 border border-gray-900 text-sm p-2 custom-shadow"
-                                    wire:click="removeAvatar">Delete Avatar
+                        @if($user->id == auth()->user()->id && !$change_avatar)
+                            <button wire:click="changeAvatar" class="hover:brightness-125" type="button"
+                                    onclick="document.getElementById('avatar').click()"
+                            >
+                                @endif
+                                <input wire:model="avatar" id="avatar" type="file" class="hidden"/>
+                                <div class="block @if($user->id == auth()->user()->id && !$change_avatar) group @endif">
+                                    <img class="h-auto w-full mx-auto rounded-lg border border-black"
+                                         src="{{ $avatar }}"
+                                         alt="{{ $name }}"
+                                    />
+                                    @if($user->id == auth()->user()->id && !$change_avatar)
+                                        <div class="relative">
+                                            <div
+                                                class="flex absolute bottom-0 right-0 bg-gray-900 text-gray-400 text-xs p-1 rounded invisible group-hover:visible">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
+                                                </svg>
+                                                Change Avatar
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                                @if($user->id == auth()->user()->id && !$change_avatar)
                             </button>
                         @endif
-                        @error('avatar_url')
-                        <p class="mt-2 text-xs font-light text-red-600" id="email-error">{{ $message }}</p>
-                        @enderror
-                    @endif
                     </div>
+                    <div class="justify-center w-full my-3">
+                        @if($change_avatar)
+                            <button type="submit"
+                                    class="bg-blue-900 hover:bg-blue-700 mt-2 rounded-xl text-gray-50 border border-gray-900 text-sm p-2 mr-3 custom-shadow"
+                            >Save
+                            </button>
+                            <button wire:click="abortChangeAvatar"
+                                    type="button"
+                                    class="bg-red-900 hover:bg-red-700 mt-2 rounded-xl text-gray-50 border border-gray-900 text-sm p-2 mr-3 custom-shadow"
+                            >Cancel
+                            </button>
+                            {{--                            @if($avatar_url)--}}
+                            {{--                                <button type="button"--}}
+                            {{--                                        class="bg-red-900 hover:bg-red-700 md:mt-3 md:block lg:inline-flex rounded-xl text-gray-50 border border-gray-900 text-sm p-2 custom-shadow"--}}
+                            {{--                                        wire:click="removeAvatar">Remove--}}
+                            {{--                                </button>--}}
+                            {{--                            @endif--}}
+                            @error('avatar_url')
+                            <p class="mt-2 text-xs font-light text-red-600" id="email-error">{{ $message }}</p>
+                            @enderror
+                        @endif
+                    </div>
+                </form>
+                <form wire:submit.prevent="saveProfile">
                     <h1 class="text-gray-900 dark:text-gray-300 font-bold text-xl leading-8 my-3">
                         @if(! $edit_mode)
                             {{ $name }}
@@ -53,7 +87,7 @@
                         @else
                             <label for="title" class="sr-only">Title</label>
                             <input wire:model.lazy="title" id="title"
-                                   type="text" class="dark:bg-gray-900 w-full rounded-xl"
+                                   type="text" class="dark:bg-gray-900 dark:text-gray-400 w-full rounded-xl"
                                    placeholder="Title"
                             />
                         @endif
@@ -64,22 +98,53 @@
                         @else
                             <label for="bio" class="sr-only">Bio</label>
                             <input wire:model.lazy="bio" id="bio"
-                                   type="text" class="dark:bg-gray-900 w-full rounded-xl"
+                                   type="text" class="dark:bg-gray-900 dark:text-gray-400 w-full rounded-xl"
                                    placeholder="Biography"
                             />
                         @endif
                     </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-600 leading-6 my-3">
+                        @if(! $edit_mode)
+                            Preferred Translation: {{ $bible_id }}
+                        @else
+{{--                            <label for="bible_id" class="sr-only">Bible Translation</label>--}}
+{{--                            <input wire:model.lazy="bible_id" id="bible_id"--}}
+{{--                                   type="text" class="dark:bg-gray-900 dark:text-gray-400 w-full rounded-xl"--}}
+{{--                                   placeholder="Biography"--}}
+{{--                            />--}}
+                    <div>
+                        <label for="bible_id" class="sr-only">Location</label>
+                        <select wire:model.lazy="bible_id" id="bible_id" name="bible_id"
+                                class="mt-1 block w-full rounded-xl dark:text-gray-400 dark:bg-gray-900 border-gray-300 py-2 pl-3 pr-10 text-base focus:border-gray-800 focus:outline-none focus:ring-gray-800 sm:text-sm">
+                            @foreach($translations as $translation)
+                                <option value="{{ $translation['abbreviation'] }}">
+                                    {{ $translation['abbreviation'] }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                    @endif
+                    </p>
                     @if(auth()->user()->id === $user->id)
                         @if(! $edit_mode)
                             <div class="justify-center">
-                                <button wire:click="enableEdit" type="button" class="p-2 my-1 bg-blue-600 hover:bg-blue-700 text-md rounded-xl w-full">Edit
+                                <button wire:click="enableEdit" type="button"
+                                        class="p-2 my-1 bg-blue-900 hover:bg-blue-700 text-gray-50 rounded-xl w-full custom-shadow">
+                                    Edit
                                     Profile
                                 </button>
                             </div>
                         @else
-                            <div class="justify-center">
-                                <button type="submit" class="p-2 my-1 bg-blue-600 hover:bg-blue-700 text-md rounded-xl w-full">
+                            <div class="flex justify-center gap-3">
+                                <button type="submit"
+                                        class="p-2 my-1 bg-blue-900 hover:bg-blue-700 text-gray-50 rounded-xl w-full custom-shadow">
                                     Save Profile
+                                </button>
+                                <button type="button"
+                                        wire:click="abortEdit"
+                                        class="p-2 my-1 bg-red-900 hover:bg-red-700 text-gray-50 rounded-xl w-full custom-shadow">
+                                    Cancel
                                 </button>
                             </div>
                         @endif
@@ -101,66 +166,20 @@
             <!-- End of profile card -->
             <div class="my-4"></div>
             <!-- Friends card -->
-            @if(count($following) > 0)
-                <x-profile.friends title="Following">
-                    @foreach($following as $followingUser)
-                        @php
-                            $followingAvatar = $followingUser->avatar_url ?? 'avatar/default.png';
-                        @endphp
-                        <x-profile.friend-item :name="$followingUser->name"
-                                               :profile="route('community.show', ['user' => $followingUser])"
-                                               :avatar="asset('storage') . '/' . $followingAvatar"/>
-                    @endforeach
-                    <x-slot:footer>
-                        {{  $following->links() }}
-                    </x-slot:footer>
-                </x-profile.friends>
+            @if(count($user->following) > 0)
+                @livewire('profile.following-list', ['user' => $user])
             @endif
 
-            @if(count($followers) > 0)
-                <x-profile.friends title="Followed By" class="mt-4">
-                    @foreach($followers as $followedUser)
-                        @php
-                            $followedAvatar = $followedUser->avatar_url ?? 'avatar/default.png';
-                        @endphp
-                        <x-profile.friend-item :name="$followedUser->name"
-                                               :profile="route('community.show', ['user' => $followedUser])"
-                                               :avatar="asset('storage') . '/' . $followedAvatar"/>
-                    @endforeach
-                    <x-slot:footer>
-                        {{  $followers->links() }}
-                    </x-slot:footer>
-                </x-profile.friends>
+            @if(count($user->followers) > 0)
+                @livewire('profile.follower-list', [ 'user' => $user])
             @endif
             <!-- End of friends card -->
         </div>
         <!-- Right Side -->
         <div class="w-full md:w-9/12 mx-2 h-64">
             <!-- My Studies Section -->
-            <x-profile.studies-card title="{{ $user->name }}'s Studies">
-                @if(count($studies) > 0)
-                    @foreach($studies as $study)
-                        <a href="{{ route('studies.show', ['study' => $study ]) }}">
-                            <x-profile.studies-item :title="$study->title">
-                                {{ $study->verse }}
-                                <x-slot:footer>
-                                    <a href="{{ route('studies.show', ['study' => $study]) }}"
-                                       class="py-2 px-2 rounded-xl bg-blue-900">See All</a>
-                                </x-slot:footer>
-                            </x-profile.studies-item>
-                        </a>
-                    @endforeach
-                @else
-                    <div class="text-gray-700 dark:text-gray-500">
-                        No public studies found!
-                    </div>
-                @endif
-                <x-slot:footer>
-                    {{ $studies->links() }}
-                </x-slot:footer>
-            </x-profile.studies-card>
+            @livewire('profile.studies-card', ['user' => $user])
             <!-- End of My Studies Section -->
-
             <div class="my-4"></div>
 
             <!-- Experience and education -->
@@ -227,10 +246,4 @@
         </div>
         <!-- End of profile tab -->
     </div>
-    @if(auth()->user()->id === $user->id)
-        <x-speed-dial>
-            {{--        <x-speed-dial-item href="{{ route('profile.edit') }}" tooltip="Edit Profile" icon="edit"/>--}}
-            <x-speed-dial-item href="{{ route('studies.create') }}" tooltip="New Study" icon="plus"/>
-        </x-speed-dial>
-    @endif
 </div>

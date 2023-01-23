@@ -7,13 +7,6 @@ use Illuminate\Http\Request;
 
 class StudiesController extends Controller
 {
-    public function index()
-    {
-        return view('studies.index', [
-            'studies' => Study::latest()->where('public', true)->paginate()
-        ]);
-    }
-
     public function create()
     {
         return view('studies.create');

@@ -11,6 +11,8 @@ use App\Http\Livewire\Auth\Passwords\Reset;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Auth\Verify;
 use App\Http\Livewire\Profile;
+use App\Http\Livewire\StudiesIndex;
+use App\Http\Livewire\UserList;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,15 +29,14 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::resource('studies', StudiesController::class);
-    Route::get('community', [UsersController::class, 'index'])->name('community.index');
+    Route::get('community', UserList::class)->name('community.index');
     Route::get('community/{user}', Profile::class)->name('community.show');
     Route::post('community/{user}/follow', [UsersController::class, 'follow'])->name('community.follow');
     Route::post('community/{user}/unfollow', [UsersController::class, 'unfollow'])->name('community.unfollow');
+
+    Route::get('/studies', StudiesIndex::class)->name('studies.index');
+    Route::get('/studies/create', [StudiesController::class, 'create'])->name('studies.create');
+    Route::get('/studies/{study}', [StudiesController::class, 'show'])->name('studies.show');
 });
 
 

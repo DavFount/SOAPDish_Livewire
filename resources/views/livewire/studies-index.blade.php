@@ -15,8 +15,7 @@
                     class="w-full flex items-stretch grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     @if(count($studies) > 0)
                         @foreach($studies as $study)
-                            <a href="{{route('studies.show', ['study' => $study])}}">
-                            <div class="flex-1 text-gray-900 dark:text-gray-400 border border-gray-600 rounded-xl custom-shadow overflow-hidden">
+                            <a href="{{route('studies.show', ['study' => $study])}}" class="flex-1 text-gray-900 dark:text-gray-400 border border-gray-600 rounded-xl custom-shadow overflow-hidden">
                                 <div class="block overflow-hidden h-full">
                                     <div class="">
                                         <h2 class=" mb-2 p-1 font-bold text-lg font-semibold dark:bg-gray-900 text-center w-full rounded">
@@ -34,7 +33,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </a>
                         @endforeach
                     @else

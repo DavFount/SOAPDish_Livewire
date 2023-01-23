@@ -22,7 +22,7 @@
             class="w-full flex items-stretch grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @if(count($studies) > 0)
                 @foreach($studies as $study)
-                    <a href="#">
+                    <a href="{{ route('studies.show', ['study' => $study]) }}" class="flex-1 text-gray-900 dark:text-gray-400 border border-gray-600 rounded-xl custom-shadow overflow-hidden">
                         <x-profile.studies-item :title="$study->title" :author="$study->author->name">
                             {{ $study->verse }}
                         </x-profile.studies-item>

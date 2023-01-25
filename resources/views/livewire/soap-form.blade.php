@@ -4,25 +4,8 @@
             class="max-w-7xl mx-auto flex px-5 py-3 text-gray-700"
             aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="{{ route('home') }}"
-                       class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                        <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                        </svg>
-                        Home
-                    </a>
-                </li>
                 <li>
                     <div class="flex items-center">
-                        <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
                         <div>
                             <div x-data="{ open: false}" class="relative">
                                 {{-- Trigger --}}
@@ -45,7 +28,7 @@
                                     </button>
                                 </div>
                                 <div x-show="open" @click.outside="open = false"
-                                     class="py-2 absolute bg-gray-100 w-full mt-2 rounded-xl z-50 overflow-auto max-h-52"
+                                     class="py-2 absolute bg-gray-200 w-24 mt-2 rounded-xl z-50 overflow-auto max-h-52 border border-gray-400 dark:border-gray-800"
                                      style="display:none">
                                     @foreach($translations as $bible)
                                         <button wire:click="setTranslation('{{ $bible['abbreviation'] }}')"
@@ -89,7 +72,7 @@
                                     </button>
                                 </div>
                                 <div x-show="open" @click.outside="open = false"
-                                     class="py-2 absolute bg-gray-100 w-full mt-2 rounded-xl z-50 overflow-auto max-h-52"
+                                     class="py-2 absolute bg-gray-200 w-36 mt-2 rounded-xl z-50 overflow-auto max-h-52 border border-gray-400 dark:border-gray-800"
                                      style="display:none">
                                     @foreach($books as $book)
                                         <button wire:click="setBook('{{ $book['id'] }}', '{{ $book['name'] }}')"
@@ -139,7 +122,7 @@
                                         </button>
                                     </div>
                                     <div x-show="open" @click.outside="open = false"
-                                         class="py-2 absolute bg-gray-100 w-full mt-2 rounded-xl z-50 overflow-auto max-h-52"
+                                         class="py-2 absolute bg-gray-200 w-16 mt-2 rounded-xl z-50 overflow-auto max-h-52 border border-gray-400 dark:border-gray-800"
                                          style="display:none">
                                         @foreach($chapters as $chapter)
                                             <button wire:click="setChapter('{{ $chapter['id'] }}')"
@@ -161,89 +144,98 @@
         <x-banner :message="session('message')"/>
     @endif
     <div class="mx-auto max-w-7xl mt-6">
-        <div class="p-8 grid grid-cols-3 gap-6 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden custom-shadow">
-            <div class="h-screen text-center overflow-auto">
-                <h3 class="text-xl text-gray-900 dark:text-gray-300 border-b border-gray-600 mb-3">{{ $bookName }}
-                    Chapter {{ $chapter_id }}</h3>
-                <div class="space-y-3 px-2">
-                    @foreach($verses as $verseObj)
-                        <p class="text-gray-900 dark:text-gray-400">
-                            <sup
-                                class="font-features sups text-xs"> {{ $verseObj['verseId'] }}</sup> {{ $verseObj['verse'] }}
-                        </p>
-                        @if(! $loop->last )
-                            <hr class="w-64 h-1 mx-auto my-8 bg-gray-200 border-0 rounded dark:bg-gray-700">
-                        @endif
-                    @endforeach
+        <div class="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden custom-shadow">
+            @if($show)
+                @if($soap->author->id === auth()->user()->id)
+                <div class="w-full text-right">
+                    <button wire:click="enableEditMode" class="bg-blue-700 hover:bg-blue-500 dark:bg-blue-900 dark:hover:bg-blue-700 dark:custom-shadow mt-3 mr-6 px-2 py-1 rounded text-sm text-gray-50 border border-black"> Edit </button>
                 </div>
-            </div>
-            <div class="text-center col-span-2">
-                <h3 class="text-xl text-gray-900 dark:text-gray-300 border-b border-gray-600 mb-3">SOAP FORM</h3>
-                @if(! $show)
-                <div class="text-left">
-                    <div class="mb-6">
-                        <label for="title"
-                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                        <input wire:model.lazy="title" type="text" id="title"
-                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        @error('title')
-                        <span class="text-red-600 text-xs">{{ $message }}</span>
-                        @enderror
+                @endif
+            @endif
+            <div class="p-8 grid grid-cols-3 gap-6">
+                <div class="h-screen text-center overflow-auto">
+                    <h3 class="text-xl text-gray-900 dark:text-gray-300 border-b border-gray-600 mb-3">{{ $bookName }}
+                        Chapter {{ $chapter_id }}</h3>
+                    <div class="space-y-3 px-2">
+                        @foreach($verses as $verseObj)
+                            <p class="text-gray-900 dark:text-gray-400">
+                                <sup
+                                    class="font-features sups text-xs"> {{ $verseObj['verseId'] }}</sup> {{ $verseObj['verse'] }}
+                            </p>
+                            @if(! $loop->last )
+                                <hr class="w-64 h-1 mx-auto my-8 bg-gray-200 border-0 rounded dark:bg-gray-700">
+                            @endif
+                        @endforeach
                     </div>
-                    <div class="mb-6">
-                        <label for="verse"
-                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Verse</label>
-                        <input wire:model.lazy="verse" type="text" id="verse"
-                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        @error('verse')
-                        <span class="text-red-600 text-xs">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="flex mt-1">
-                        <div>
-                            <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Study
-                                Content</label>
-                            <textarea wire:model.debounce.500ms="body" rows="15" cols="80" name="comment" id="body"
-                                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
-                            @error('body')
+                </div>
+                <div class="text-center col-span-2">
+                        <h3 class="text-xl text-gray-900 dark:text-gray-300 border-b border-gray-600 mb-3">SOAP FORM</h3>
+                    @if(! $show)
+                    <div class="text-left">
+                        <div class="mb-6">
+                            <label for="title"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                            <input wire:model.lazy="title" type="text" id="title"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            @error('title')
                             <span class="text-red-600 text-xs">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="ml-3 w-full">
-                            <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preview</label>
-                            <div class="w-full prose prose-sm dark:prose-invert  max-h-80 overflow-auto">
+                        <div class="mb-6">
+                            <label for="verse"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Verse</label>
+                            <input wire:model.lazy="verse" type="text" id="verse"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            @error('verse')
+                            <span class="text-red-600 text-xs">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="flex mt-1">
+                            <div class="w-full">
+                                <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Study
+                                    Content</label>
+                                <textarea wire:model.debounce.500ms="body" rows="15" name="comment" id="body"
+                                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                                @error('body')
+                                <span class="text-red-600 text-xs">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="ml-3 w-full hidden md:flex">
+                                <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preview</label>
+                                <div class="w-full prose prose-sm dark:prose-invert  max-h-80 overflow-auto text-center">
+                                    {!! \Illuminate\Support\Str::markdown($body) !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-1 text-gray-900 dark:text-gray-300">
+                            <input wire:model="public" type="checkbox" id="public"
+                                   class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"/>
+                            <label for="public" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Make
+                                Public</label>
+                            <input wire:model="published" type="checkbox" id="published"
+                                   class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"/>
+                            <label for="published" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Published?</label>
+                        </div>
+                        <div class="mt-3">
+                            <button wire:click="saveSoap" type="button"
+                                    class="p-3 bg-blue-900 hover:bg-blue-700 text-gray-50 text-sm rounded-xl">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                    @else
+                        <div class="text-left">
+                            <div class="mb-6 block text-sm font-medium text-gray-900 dark:text-white text-center">
+                                <h1 class="uppercase text-xl">{{ $title }}</h1>
+                                <h4 class="font-semibold text-gray-500">{{ $verse }} - {{ $soap->author->name }}</h4>
+                                <h4 class="font-semibold text-gray-500 text-xs"> Created on: {{ $soap->created_at->timezone(session('timezone'))->format('M d Y') }} Last Update: {{ $soap->updated_at->timezone(session('timezone'))->format('M d Y') }}</h4>
+                            </div>
+                            <div class="w-full prose prose-sm dark:prose-invert overflow-auto">
                                 {!! \Illuminate\Support\Str::markdown($body) !!}
                             </div>
                         </div>
-                    </div>
-                    <div class="mt-1 text-gray-900 dark:text-gray-300">
-                        <input wire:model="public" type="checkbox" id="public"
-                               class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"/>
-                        <label for="public" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Make
-                            Public</label>
-                        <input wire:model="published" type="checkbox" id="published"
-                               class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"/>
-                        <label for="published" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Published?</label>
-                    </div>
-                    <div class="mt-3">
-                        <button wire:click="saveSoap" type="button"
-                                class="p-3 bg-blue-900 hover:bg-blue-700 text-gray-50 text-sm rounded-xl">
-                            Submit
-                        </button>
-                    </div>
+                    @endif
                 </div>
-                @else
-                    <div class="text-left">
-                        <div class="mb-6 block text-sm font-medium text-gray-900 dark:text-white text-center">
-                            <h1 class="uppercase text-xl">{{ $title }}</h1>
-                            <h4 class="font-semibold text-gray-500">{{ $verse }} - {{ $soap->author->name }}</h4>
-                            <h4 class="font-semibold text-gray-500 text-xs"> Created on: {{ $soap->created_at->format('M d Y') }} Last Update: {{ $soap->updated_at->format('M d Y') }}</h4>
-                        </div>
-                        <div class="w-full prose prose-sm dark:prose-invert overflow-auto">
-                            {!! \Illuminate\Support\Str::markdown($body) !!}
-                        </div>
-                    </div>
-                @endif
             </div>
         </div>
     </div>

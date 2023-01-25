@@ -16,6 +16,10 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.js"></script>
+
     @stack('styles')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles

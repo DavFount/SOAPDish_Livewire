@@ -21,9 +21,9 @@
             <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div class="flex flex-shrink-0 items-center">
                     <img class="block h-8 w-auto lg:hidden"
-                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                         src="{{ Helper::getImage('logos/LogoText.png') }}" alt="The SOAP Dish">
                     <img class="hidden h-10 w-auto lg:block"
-                         src="{{ url(asset('images/LogoText.png')) }}" alt="Your Company">
+                         src="{{ Helper::getImage('logos/LogoText.png') }}" alt="The SOAP Dish">
                 </div>
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
@@ -83,11 +83,8 @@
                                     class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                     id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="sr-only">Open user menu</span>
-                                @php
-                                    $avatar = auth()->user()->avatar_url ??'avatar/default.png';
-                                @endphp
                                 <img class="h-10 w-10 rounded-full border border-black custom-shadow"
-                                     src="{{ asset('/storage/' . $avatar) }}"
+                                     src="{{ auth()->user()->avatarUrl() }}"
                                      alt="{{auth()->user()->name}}">
                             </button>
                         </div>

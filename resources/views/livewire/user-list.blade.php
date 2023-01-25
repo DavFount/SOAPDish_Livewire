@@ -1,7 +1,8 @@
 <div>
     <div class="mt-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-6">
-            <div class="p-3 bg-white dark:bg-gray-800 shadow sm:rounded-lg custom-shadow text-gray-900 dark:text-gray-400">
+            <div
+                class="p-3 bg-white dark:bg-gray-800 shadow sm:rounded-lg custom-shadow text-gray-900 dark:text-gray-400">
                 Search <input wire:model.debounce.200ms="search"
                               type="search"
                               class="border border-gray-300 rounded-xl active:ring-0 dark:bg-gray-900 dark:border-gray-700"
@@ -15,9 +16,11 @@
                         @foreach($users as $user)
                             <x-user-list-item>
                                 <x-slot:header>
-                                    <img class="mx-auto h-28 w-28 flex-shrink-0 rounded-full border border-black"
-                                         src="{{ $user->avatar_url ? asset('storage') . '/' . $user->avatar_url : asset('storage') . '/avatar/default.png' }}"
-                                         alt="">
+                                    <a href="{{ route('community.show', ['user' => $user]) }}">
+                                        <img class="mx-auto h-28 w-28 flex-shrink-0 rounded-full border border-black"
+                                             src="{{ $user->avatarUrl() }}"
+                                             alt="">
+                                    </a>
                                     <h3 class="mt-6 text-sm font-medium text-gray-900 dark:text-gray-200 font-semibold">{{ $user->name }}</h3>
                                     <dl class="mt-1 flex flex-grow flex-col justify-between">
                                         <dt class="sr-only">Title</dt>

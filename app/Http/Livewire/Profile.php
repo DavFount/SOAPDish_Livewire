@@ -63,9 +63,10 @@ class Profile extends Component
 
     public function saveAvatar() {
         if($this->avatar_url) {
-            $this->user->avatar_url = $this->avatar->store('avatar', 'public');
+            $this->user->avatar_url = $this->avatar->store('avatar');
             $this->avatar_url = $this->user->avatar_url;
             $this->tempAvatar = false;
+            $this->user->save();
         } else {
             $this->user->avatar_url = null;
         }

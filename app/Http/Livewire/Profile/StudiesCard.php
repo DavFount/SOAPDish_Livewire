@@ -21,7 +21,7 @@ class StudiesCard extends Component
     public function render()
     {
         return view('livewire.profile.studies-card', [
-            'studies' => Study::where('user_id', '=', $this->user->id)->when($this->user->id !== auth()->user()->id, function ($query) {
+            'studies' => Study::where('user_id', '=', $this->user->id)->with(['author'])->when($this->user->id !== auth()->user()->id, function ($query) {
                 $query->where('public', true)->where('published', true);
             })->paginate(8, ['*'], 'studiesPage'),
         ]);

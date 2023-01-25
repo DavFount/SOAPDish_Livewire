@@ -17,7 +17,7 @@
                             <x-user-list-item>
                                 <x-slot:header>
                                     <img class="mx-auto h-28 w-28 flex-shrink-0 rounded-full border border-black"
-                                         src="{{ $user->avatar_url ? asset('storage') . '/' . $user->avatar_url : asset('storage') . '/avatar/default.png' }}"
+                                         src="{{ $user->avatarUrl() }}"
                                          alt="">
                                     <h3 class="mt-6 text-sm font-medium text-gray-900 dark:text-gray-200 font-semibold">{{ $user->name }}</h3>
                                     <dl class="mt-1 flex flex-grow flex-col justify-between">

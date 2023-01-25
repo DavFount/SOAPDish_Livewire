@@ -42,8 +42,14 @@ class SoapForm extends Component
             $this->title = $study->title;
             $this->verse = $study->verse;
             $this->body = $study->body;
+            $this->public = $study->public;
+            $this->published = $study->published;
             $this->soap = $study;
         }
+    }
+
+    public function enableEditMode() {
+        $this->show = false;
     }
 
     public function updated($propertyName) {
@@ -80,7 +86,9 @@ class SoapForm extends Component
                 'chapter_id' => $this->chapter_id,
                 'book_name' => $this->bookName,
             ]);
+
             session()->flash('message', 'Successfully created your study');
+            redirect(route('studies.show', ['study' => $this->soap]));
         } else {
             $this->soap->update([
                 'title' => $data['title'],
@@ -92,6 +100,8 @@ class SoapForm extends Component
                 'chapter_id' => $this->chapter_id,
                 'book_name' => $this->bookName,
             ]);
+
+            $this->show = true;
             session()->flash('message', 'Successfully updated your study');
         }
     }

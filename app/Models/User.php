@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -47,15 +49,25 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function studies() {
+    public function avatarUrl()
+    {
+        if($this->avatar_url) {
+            return Storage::disk('s3')->url($this->avatar_url);
+        }
+    }
+
+    public function studies()
+    {
         return $this->hasMany(Study::class);
     }
 
-    public function following() {
+    public function following()
+    {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id');
     }
 
-    public function followers() {
+    public function followers()
+    {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
     }
 }

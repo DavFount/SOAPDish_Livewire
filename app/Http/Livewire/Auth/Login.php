@@ -17,6 +17,8 @@ class Login extends Component
     /** @var bool */
     public $remember = false;
 
+    public $timezone = 'UTC';
+
     protected $rules = [
         'email' => ['required', 'email'],
         'password' => ['required'],
@@ -25,6 +27,8 @@ class Login extends Component
     public function authenticate()
     {
         $this->validate();
+
+        session(['timezone' => $this->timezone]);
 
         if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             $this->addError('email', trans('auth.failed'));

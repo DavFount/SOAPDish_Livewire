@@ -8,7 +8,12 @@
 
     The SOAP method encourages a deeper dive into scripture than simply
     reading God's word. SOAP is an acronym which means Scripture, Observation,
-    Application, Prayer.
+    Application, Prayer. Ready to give it a try and dive into the word of God?
+        @guest
+        <x-slot:cta>
+            <a href="{{ route('register') }}" class="p-3 rounded-xl bg-blue-900 text-gray-50 custom-shadow border border-black">Get Started</a>
+        </x-slot:cta>
+        @endguest
     </x-hero>
 
     <x-hero-divider/>

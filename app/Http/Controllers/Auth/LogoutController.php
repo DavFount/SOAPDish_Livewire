@@ -13,6 +13,8 @@ class LogoutController extends Controller
     {
         Auth::logout();
 
+        session()->forget('timezone');
+
         return redirect(route('home'));
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('title')->nullable();
             $table->text('bio')->nullable();
-            $table->string('avatar_url')->nullable();
+            $table->string('avatar_url')->default('avatar/default.png');
             $table->string('bible_id')->default('NIV');
             $table->boolean('is_active')->default(true);
             $table->string('email')->unique();

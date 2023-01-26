@@ -12,12 +12,9 @@
     </div>
     <div class="grid sm:grid-cols-1 lg:grid-cols-3">
         @foreach($follower as $followerUser)
-            @php
-                $followerAvatar = $followerUser->avatar_url ?? 'avatar/default.png';
-            @endphp
             <x-profile.friend-item :name="$followerUser->name"
                                    :profile="route('community.show', ['user' => $followerUser])"
-                                   :avatar="asset('storage') . '/' . $followerAvatar"/>
+                                   :avatar="$followerUser->avatarUrl()"/>
         @endforeach
     </div>
     <div>

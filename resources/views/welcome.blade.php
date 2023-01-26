@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('body')
+    @if(session()->has('message'))
+        <x-banner :message="session('message')"/>
+    @endif
     <x-hero>
     <x-slot:header>
         Welcome to The SOAP Dish

@@ -39,7 +39,7 @@ class Register extends Component
 
         event(new Registered($user));
 
-        Auth::login($user, true);
+//        Auth::login($user, true);
 
         return redirect()->intended(route('home'));
     }

@@ -5,17 +5,18 @@
         <x-banner :message="session('message')"/>
     @endif
     <x-hero>
-    <x-slot:header>
-        Welcome to The SOAP Dish
-    </x-slot:header>
+        <x-slot:header>
+            Welcome to The SOAP Dish
+        </x-slot:header>
 
-    The SOAP method encourages a deeper dive into scripture than simply
-    reading God's word. SOAP is an acronym which means Scripture, Observation,
-    Application, Prayer. Ready to give it a try and dive into the word of God?
+        The SOAP method encourages a deeper dive into scripture than simply
+        reading God's word. SOAP is an acronym which means Scripture, Observation,
+        Application, Prayer. Ready to give it a try and dive into the word of God?
         @guest
-        <x-slot:cta>
-            <a href="{{ route('register') }}" class="p-3 rounded-xl bg-blue-900 text-gray-50 custom-shadow border border-black">Get Started</a>
-        </x-slot:cta>
+            <x-slot:cta>
+                <a href="{{ route('register') }}"
+                   class="p-3 rounded-xl bg-blue-900 text-gray-50 custom-shadow border border-black">Get Started</a>
+            </x-slot:cta>
         @endguest
     </x-hero>
 
@@ -35,7 +36,7 @@
         saved.
     </x-hero>
 
-    <x-hero-divider />
+    <x-hero-divider/>
 
 
     <x-hero>
@@ -79,6 +80,22 @@
             </x-hero-body>
         </div>
     </x-hero>
+
+    @auth()
+    <x-hero-divider/>
+
+    <x-hero>
+        <x-slot:header>
+            Contact Us
+        </x-slot:header>
+
+        Thank you for checking out my application. This is a work in progress. Please report any issues that come up so
+        they can be resolved.
+
+        @livewire('contact-form')
+
+    </x-hero>
+    @endauth
 
     <x-hero-divider :lastItem="true"/>
 @endsection

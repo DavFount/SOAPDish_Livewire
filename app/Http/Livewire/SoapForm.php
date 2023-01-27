@@ -109,24 +109,30 @@ class SoapForm extends Component
     public function render()
     {
         $baseUrl = config('bibleapi.base_url');
-        $translations = Http::get("{$baseUrl}/translations");
-        $books = Http::get("{$baseUrl}/books");
+        $translations = Http::get("{$baseUrl}/translations")->json();
+        $books = Http::get("{$baseUrl}/books")->json();
 
         $chapters = [];
         if($this->book) {
-            $chapters = Http::get("{$baseUrl}/books/{$this->book}/chapters");
+            $chapters = Http::get("{$baseUrl}/books/{$this->book}/chapters")->json();
+
+            if(count($chapters) <= 0) {
+                $this->bookName = null;
+                $this->book = null;
+                $this->chapter_id = null;
+            }
         }
 
         if($this->chapter_id) {
             $this->verses = HTTP::get("{$baseUrl}/books/{$this->book}/chapters/{$this->chapter_id}", [
                 'translation' => $this->translation
-            ])->json();
+            ])->json() ?? null;
         }
 
         return view('livewire.soap-form', [
-            'translations' => $translations->json(),
-            'books' => $books->json(),
-            'chapters' => $chapters ? $chapters->json() : [],
+            'translations' => $translations,
+            'books' => $books,
+            'chapters' => count($chapters) > 0 ? $chapters : [],
             'verses' => $this->verses,
         ]);
     }
